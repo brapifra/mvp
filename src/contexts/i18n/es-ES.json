@@ -8,5 +8,6 @@
   "Repeat password": "Repite la contraseña",
   "Use at least eight characters, one letter and one number": "Usa como mínimo 8 caracteres, una letra y un número",
   "Passwords don't match": "Las contraseñas no coinciden",
-  "Required": "Obligatorio"
+  "Required": "Obligatorio",
+  "Use a valid email address": "Usa una dirección de correo electrónico válida"
 }
