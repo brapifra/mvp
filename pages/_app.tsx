@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import React from 'react';
+import Head from 'next/head';
 
 const App: React.FC<any> = ({ Component, pageProps }) => {
   return (
@@ -8,7 +9,7 @@ const App: React.FC<any> = ({ Component, pageProps }) => {
       </Head>
       <Component {...pageProps} />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
