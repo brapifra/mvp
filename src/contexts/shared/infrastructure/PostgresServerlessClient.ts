@@ -42,7 +42,10 @@ export class PostgresServerlessClient implements DatabaseClient {
     }
   }
 
-  async query<T = any>(query: string, args: any[]): Promise<{ rows: T[] }> {
+  async query<T = any>(
+    query: string,
+    args: any[]
+  ): Promise<{ rows: T[]; rowCount: number }> {
     await this.connect();
     return this.client.query(query, args);
   }
