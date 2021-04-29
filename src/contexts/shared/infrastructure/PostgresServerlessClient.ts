@@ -47,8 +47,17 @@ export class PostgresServerlessClient implements DatabaseClient {
     return this.client.query(query, args);
   }
 
-  async disconnect(): Promise<void> {
-    await this.client.clean();
-    this.isConnected = false;
+  async clean(): Promise<void> {
+    if (this.isConnected) {
+      await this.client.clean();
+      this.isConnected = false;
+    }
+  }
+
+  async end(): Promise<void> {
+    if (this.isConnected) {
+      await this.client.end();
+      this.isConnected = false;
+    }
   }
 }

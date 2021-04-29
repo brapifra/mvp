@@ -4,6 +4,7 @@ import { PostgresServerlessClient } from '../PostgresServerlessClient';
 const pgMock = {
   connect: jest.fn(() => Promise.resolve()),
   clean: jest.fn(() => Promise.resolve()),
+  end: jest.fn(() => Promise.resolve()),
   query: jest.fn(() => Promise.resolve({ rows: [] })),
   on: jest.fn(),
 };
@@ -16,6 +17,7 @@ jest.mock(
       clean = pgMock.clean;
       query = pgMock.query;
       on = pgMock.on;
+      end = pgMock.end;
     }
 );
 
@@ -56,7 +58,7 @@ describe('PostgresServerlessClient', () => {
       expect(pgMock.clean).not.toBeCalled();
       expect(pgMock.query).not.toBeCalled();
 
-      await defaultClient.disconnect();
+      await defaultClient.clean();
       await defaultClient.connect();
       await defaultClient.connect();
       expect(pgMock.clean).toBeCalledTimes(1);
@@ -80,11 +82,41 @@ describe('PostgresServerlessClient', () => {
     });
   });
 
-  describe('disconnect', () => {
-    it('calls pg.disconnect', async () => {
+  describe('clean', () => {
+    it('calls pg.end', async () => {
       expect(pgMock.clean).not.toBeCalled();
-      await defaultClient.disconnect();
+      await defaultClient.connect();
+      await defaultClient.clean();
+      expect(pgMock.connect).toBeCalledTimes(1);
       expect(pgMock.clean).toBeCalledTimes(1);
+      expect(pgMock.end).not.toBeCalled();
+      expect(pgMock.query).not.toBeCalled();
+    });
+    it("doesn't call pg.clean if it's not connected to DB", async () => {
+      expect(pgMock.clean).not.toBeCalled();
+      await defaultClient.clean();
+      expect(pgMock.clean).not.toBeCalled();
+      expect(pgMock.end).not.toBeCalled();
+      expect(pgMock.connect).not.toBeCalled();
+      expect(pgMock.query).not.toBeCalled();
+    });
+  });
+
+  describe('end', () => {
+    it('calls pg.end', async () => {
+      expect(pgMock.clean).not.toBeCalled();
+      await defaultClient.connect();
+      await defaultClient.end();
+      expect(pgMock.connect).toBeCalledTimes(1);
+      expect(pgMock.end).toBeCalledTimes(1);
+      expect(pgMock.clean).not.toBeCalled();
+      expect(pgMock.query).not.toBeCalled();
+    });
+    it("doesn't call pg.end if it's not connected to DB", async () => {
+      expect(pgMock.clean).not.toBeCalled();
+      await defaultClient.end();
+      expect(pgMock.end).not.toBeCalled();
+      expect(pgMock.clean).not.toBeCalled();
       expect(pgMock.connect).not.toBeCalled();
       expect(pgMock.query).not.toBeCalled();
     });

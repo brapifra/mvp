@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { container } from 'tsyringe';
+import { container, Lifecycle } from 'tsyringe';
 import GlobalConfig from 'contexts/shared/domain/GlobalConfig';
 import {
   PostgresServerlessClient,
@@ -21,6 +21,10 @@ container.register<PostgresServerlessClientConfig>(
   }
 );
 
-container.register<DatabaseClient>('DatabaseClient', {
-  useClass: PostgresServerlessClient,
-});
+container.register<DatabaseClient>(
+  'DatabaseClient',
+  {
+    useClass: PostgresServerlessClient,
+  },
+  { lifecycle: Lifecycle.Singleton }
+);
