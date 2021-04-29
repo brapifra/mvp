@@ -1,3 +1,4 @@
+jest.resetModules();
 import { PostgresServerlessClient } from '../PostgresServerlessClient';
 
 const pgMock = {

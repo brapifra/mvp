@@ -1,7 +1,8 @@
-import { DatabaseClient } from '../domain/DatabaseClient';
+import { singleton, inject } from 'tsyringe';
+import { DatabaseClient } from 'contexts/shared/domain/DatabaseClient';
 import ServerlessClient from 'serverless-postgres';
 
-interface Config {
+export interface PostgresServerlessClientConfig {
   host: string;
   user: string;
   password: string;
@@ -10,12 +11,16 @@ interface Config {
   port: number;
 }
 
+@singleton()
 export class PostgresServerlessClient implements DatabaseClient {
   private client: ServerlessClient;
   private isConnected = false;
   private hasConnectedAtLeastOnce = false;
 
-  constructor(config: Config) {
+  constructor(
+    @inject('PostgresServerlessClientConfig')
+    config: PostgresServerlessClientConfig
+  ) {
     this.client = new ServerlessClient(config);
   }
 
