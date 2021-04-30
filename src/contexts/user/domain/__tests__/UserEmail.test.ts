@@ -8,8 +8,9 @@ describe('UserEmail', () => {
     });
   });
   it('throws an error when the email is not valid', () => {
-    expect(() => new UserEmail('invalid')).toThrowError(
-      new InvalidEmailError()
+    const invalidEmail = 'jjjjjjjjjjj';
+    expect(() => new UserEmail(invalidEmail)).toThrowError(
+      new InvalidEmailError(invalidEmail)
     );
   });
 });

@@ -1,8 +1,3 @@
-import {
-  InternalError,
-  InternalErrorType,
-} from 'contexts/shared/domain/InternalError';
-
 export class UserEmail {
   private static emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -10,7 +5,7 @@ export class UserEmail {
     const emailIsValid = UserEmail.emailRegExp.test(email);
 
     if (!emailIsValid) {
-      throw new InvalidEmailError();
+      throw new InvalidEmailError(email);
     }
   }
 
@@ -19,8 +14,8 @@ export class UserEmail {
   }
 }
 
-export class InvalidEmailError extends InternalError {
-  constructor() {
-    super(InternalErrorType.INVALID_EMAIL, 'Invalid email');
+export class InvalidEmailError extends Error {
+  constructor(email: string) {
+    super(`'${email}' is not a valid email address`);
   }
 }
