@@ -11,21 +11,30 @@ export class UserPostgresRepository implements UserRepository {
   constructor(@inject('DatabaseClient') private client: DatabaseClient) {}
 
   async save(user: User): Promise<number> {
-    const {
-      rowCount,
-    } = await this.client.query(
-      'INSERT INTO users(id, name, email, password, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)',
-      [
-        user.id.toString(),
-        user.name.toDto(),
-        user.email.toDto(),
-        user.password.toString(),
-        user.createdAt,
-        user.updatedAt,
-      ]
-    );
+    try {
+      const {
+        rowCount,
+      } = await this.client.query(
+        'INSERT INTO users(id, name, email, password, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)',
+        [
+          user.id.toString(),
+          user.name.toDto(),
+          user.email.toDto(),
+          user.password.toString(),
+          user.createdAt,
+          user.updatedAt,
+        ]
+      );
 
-    return rowCount;
+      return rowCount;
+    } catch (e) {
+      switch (true) {
+        case e.code === '23505' && e.constraint === 'users_email_key':
+          throw new EmailIsAlreadyInUseError(user.email.toDto());
+        default:
+          throw e;
+      }
+    }
   }
 
   async findByEmail(email: UserEmail): Promise<void | User> {
@@ -57,5 +66,11 @@ export class UserPostgresRepository implements UserRepository {
     ]);
 
     return rowCount;
+  }
+}
+
+export class EmailIsAlreadyInUseError extends Error {
+  constructor(email: string) {
+    super(`Email '${email}' is already in use`);
   }
 }
