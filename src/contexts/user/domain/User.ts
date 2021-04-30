@@ -43,7 +43,7 @@ export class User implements Entity<UserId> {
   }
 }
 
-type UserDTO = {
+export type UserDTO = {
   id: string;
   name: string;
   email: string;
