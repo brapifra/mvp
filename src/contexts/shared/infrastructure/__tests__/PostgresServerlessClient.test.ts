@@ -18,6 +18,7 @@ jest.mock(
       query = pgMock.query;
       on = pgMock.on;
       end = pgMock.end;
+      _client = {};
     }
 );
 
