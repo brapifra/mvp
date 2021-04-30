@@ -1,6 +1,7 @@
 import { DatabaseClient } from 'contexts/shared/domain/DatabaseClient';
 import { inject, singleton } from 'tsyringe';
 import { User } from '../domain/User';
+import { UserEmail } from 'contexts/user/domain/UserEmail';
 import { UserId } from '../domain/UserId';
 import { UserPassword } from '../domain/UserPassword';
 import { UserRepository } from '../domain/UserRepository';
@@ -16,8 +17,8 @@ export class UserPostgresRepository implements UserRepository {
       'INSERT INTO users(id, name, email, password, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)',
       [
         user.id.toString(),
-        user.name,
-        user.email,
+        user.name.toDto(),
+        user.email.toDto(),
         user.password.toString(),
         user.createdAt,
         user.updatedAt,
@@ -27,11 +28,11 @@ export class UserPostgresRepository implements UserRepository {
     return rowCount;
   }
 
-  async findByEmail(email: string): Promise<void | User> {
+  async findByEmail(email: UserEmail): Promise<void | User> {
     const {
       rows,
     } = await this.client.query('SELECT * FROM users WHERE email = $1', [
-      email,
+      email.toDto(),
     ]);
 
     const row = rows[0];

@@ -1,11 +1,13 @@
 import { Entity } from 'contexts/shared/domain/Entity';
 import { UserPassword } from 'contexts/user/domain/UserPassword';
 import { UserId } from 'contexts/user/domain/UserId';
+import { UserName } from 'contexts/user/domain/UserName';
+import { UserEmail } from 'contexts/user/domain/UserEmail';
 
 export class User implements Entity<UserId> {
   public readonly id: UserId;
-  public readonly name: string;
-  public readonly email: string;
+  public readonly name: UserName;
+  public readonly email: UserEmail;
   public readonly password: UserPassword;
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
@@ -14,8 +16,8 @@ export class User implements Entity<UserId> {
     this.id = details.id;
     this.createdAt = details.createdAt;
     this.updatedAt = details.updatedAt;
-    this.name = details.name;
-    this.email = details.email;
+    this.name = new UserName(details.name);
+    this.email = new UserEmail(details.email);
     this.password = details.password;
   }
 
@@ -33,19 +35,18 @@ export class User implements Entity<UserId> {
   toDto(): UserDTO {
     return {
       id: this.id.toString(),
-      name: this.name,
-      email: this.email,
+      name: this.name.toDto(),
+      email: this.email.toDto(),
       createdAt: this.createdAt.toString(),
       updatedAt: this.updatedAt.toString(),
     };
   }
 }
 
-type UserDTO = Omit<
-  User,
-  'id' | 'createdAt' | 'updatedAt' | 'toDto' | 'password'
-> & {
+type UserDTO = {
   id: string;
+  name: string;
+  email: string;
   createdAt: string;
   updatedAt: string;
 };
