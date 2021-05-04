@@ -15,7 +15,7 @@ const fakeDate = new Date(1466424490000);
 const newUserData = {
   name: 'test',
   email: 'this@email.com',
-  password: 'secret',
+  password: 'longsecret1.',
 };
 const expectedNewUser = {
   id: fakeUserId,
@@ -28,6 +28,12 @@ const expectedNewUser = {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 jest.spyOn(global, 'Date').mockImplementation(() => fakeDate);
+
+jest
+  .spyOn(UserPassword, 'fromPlainText')
+  .mockImplementation((newUserData) =>
+    Promise.resolve(UserPassword.fromHash(newUserData))
+  );
 
 jest.mock('contexts/user/domain/UserId', () => ({
   UserId: class {
@@ -50,7 +56,7 @@ describe('UserCreator', () => {
     expect(fakeUserRepository.save).toBeCalledWith(
       User.create({
         ...newUserData,
-        password: UserPassword.fromPlainText(newUserData.password),
+        password: await UserPassword.fromPlainText(newUserData.password),
       })
     );
   });
@@ -65,7 +71,7 @@ describe('UserCreator', () => {
     expect(fakeUserRepository.save).toBeCalledWith(
       User.create({
         ...newUserData,
-        password: UserPassword.fromPlainText(newUserData.password),
+        password: await UserPassword.fromPlainText(newUserData.password),
       })
     );
   });

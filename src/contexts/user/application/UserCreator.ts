@@ -16,7 +16,7 @@ export class UserCreator {
   async run(newUserData: CreateUserDTO): Promise<UserDTO> {
     const newUser = User.create({
       ...newUserData,
-      password: UserPassword.fromPlainText(newUserData.password),
+      password: await UserPassword.fromPlainText(newUserData.password),
     });
 
     await this.userRepo.save(newUser);

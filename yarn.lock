@@ -770,6 +770,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/argon2-browser@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@types/argon2-browser/-/argon2-browser-1.12.0.tgz#b9c3c4a996a80cb3c4f5ad097e8d0debda459072"
+  integrity sha512-ZPpKOoLuyXf+dKUJKcbUAzAajnJ1+ABXqSyHtsjfDaKhdHh19wXNWC3/hpDdzIO8ykiSONnGCWy38juDZVocvg==
+
 "@types/aria-query@^4.2.0":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-4.2.1.tgz#78b5433344e2f92e8b306c06a5622c50c245bf6b"
@@ -1423,6 +1428,11 @@ arg@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/arg/-/arg-4.1.0.tgz#583c518199419e0037abb74062c37f8519e575f0"
   integrity sha512-ZWc51jO3qegGkVh8Hwpv636EkbesNV5ZNQPCtRa+0qytRYPEs9IYT9qITY9buezqUH5uqyzlWLcufrzU2rffdg==
+
+argon2-browser@^1.15.4:
+  version "1.15.4"
+  resolved "https://registry.yarnpkg.com/argon2-browser/-/argon2-browser-1.15.4.tgz#3b777b3f11f642cd49f086871c25d7f0c5d6226d"
+  integrity sha512-LjT+p+iVYmYIj8scVtnjLVgZUZaOllL5KluXvsd3M4MurckKBf9zuMRcqCT/nw6hCsleBI57QyRnzL2KMiQNjQ==
 
 argparse@^1.0.7:
   version "1.0.10"

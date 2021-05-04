@@ -12,7 +12,7 @@ const userDetails = {
   id: new UserId('90c2d775-13cb-4507-9b40-db1a6dc3e27a'),
   name: 'test',
   email: 'test@gmail.com',
-  password: UserPassword.fromPlainText('secret'),
+  password: UserPassword.fromHash('whatever'),
   createdAt: new Date('2021-04-29T19:03:21.346Z'),
   updatedAt: new Date('2021-04-29T19:03:21.346Z'),
 };
