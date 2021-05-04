@@ -1,3 +1,5 @@
+import { ErrorWithHint } from 'contexts/shared/domain/ErrorWithHint';
+
 export class UserEmail {
   private static emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -14,8 +16,11 @@ export class UserEmail {
   }
 }
 
-export class InvalidEmailError extends Error {
+export class InvalidEmailError extends ErrorWithHint {
   constructor(email: string) {
-    super(`'${email}' is not a valid email address`);
+    super(
+      `'${email}' is not a valid email address`,
+      'Use a valid email address'
+    );
   }
 }

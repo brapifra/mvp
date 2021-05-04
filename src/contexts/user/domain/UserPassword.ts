@@ -1,4 +1,5 @@
 import argon2 from 'argon2-browser';
+import { ErrorWithHint } from 'contexts/shared/domain/ErrorWithHint';
 import { RegExpValidator } from 'contexts/shared/domain/Validator';
 
 export class UserPassword {
@@ -40,9 +41,12 @@ export class UserPassword {
   }
 }
 
-export class InvalidUserPassword extends Error {
+export class InvalidUserPassword extends ErrorWithHint {
   constructor(plainPassword: string) {
-    super(`'${plainPassword}' is not a valid user password`);
+    super(
+      `'${plainPassword}' is not a valid user password`,
+      'Use at least eight characters, one letter and one number'
+    );
   }
 }
 
