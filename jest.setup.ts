@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { config } from 'dotenv';
 import { join } from 'path';
 
