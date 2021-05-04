@@ -17,7 +17,8 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
-      "contexts/*": ["src/contexts/*"]
+      "contexts/*": ["src/contexts/*"],
+      "test/*": ["test/*"]
     }
   },
   "exclude": ["node_modules", ".next", "out"],
